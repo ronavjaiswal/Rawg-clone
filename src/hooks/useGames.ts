@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 export interface Game {
     id: number;
     name: string;
+    background_image: string
   }
   
 export interface GameResponse {
@@ -24,7 +25,7 @@ const useGames = () => {
       .then((res) => setGames(res.data.results))
       .catch((err) =>{ 
         if (err.message === "canceled") return;
-        
+
         setError(err.message)});
 
       return () => controller.abort()
