@@ -4,6 +4,8 @@ import { Button } from "@chakra-ui/react"
 import { useColorMode } from "@/components/ui/color-mode"
 import GameGrid from "./components/GameGrid"
 import GenreList from "./components/GenreList"
+import { useState } from "react"
+import { Genre } from "./hooks/useGenres"
 
 
 function App() {
@@ -17,23 +19,29 @@ function App() {
     "2xl": "2xl",
   })
 
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
 
   return (
     
     <Grid templateAreas={{
       base: `"nav" "main"`,
       lg: `"nav nav" "aside main"`
-    }}>
+      }}
+
+      templateColumns = {{
+        base: "1fr",
+        lg: "200px 1fr"
+      }}>
       
     <GridItem area = 'nav'> <NavBar></NavBar> </GridItem>
 
     <Show when = {currentBp == "lg" || currentBp == "xl" || currentBp == "2xl" ? true : false}>
-      <GridItem area = 'aside'> 
-        <GenreList></GenreList>  
+      <GridItem area = 'aside' paddingX={5}> 
+        <GenreList selectedGenre = {selectedGenre} onSelectGenre={(genre) => {setSelectedGenre(genre)}}></GenreList>  
       </GridItem>
     </Show>
 
-    <GridItem area = 'main'>   <GameGrid></GameGrid> </GridItem>
+    <GridItem area = 'main'>   <GameGrid selectedGenre={selectedGenre}></GameGrid> </GridItem>
     </Grid>
   )
 }
