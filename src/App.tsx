@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar"
 import { Button } from "@chakra-ui/react"
 import { useColorMode } from "@/components/ui/color-mode"
 import GameGrid from "./components/GameGrid"
+import GenreList from "./components/GenreList"
 
 
 function App() {
@@ -27,7 +28,9 @@ function App() {
     <GridItem area = 'nav'> <NavBar></NavBar> </GridItem>
 
     <Show when = {currentBp == "lg" || currentBp == "xl" || currentBp == "2xl" ? true : false}>
-      <GridItem area = 'aside'> Aside </GridItem>
+      <GridItem area = 'aside'> 
+        <GenreList></GenreList>  
+      </GridItem>
     </Show>
 
     <GridItem area = 'main'>   <GameGrid></GameGrid> </GridItem>
