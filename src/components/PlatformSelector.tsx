@@ -14,7 +14,7 @@ const PlatformSelector = () => {
     <Menu.Root>
       <Menu.Trigger asChild>
         <Button marginLeft = {2} variant="outline" size="sm">
-          Platforms
+          Platforms Supported
         </Button>
       </Menu.Trigger>
       <Portal>

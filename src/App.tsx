@@ -7,6 +7,13 @@ import { Genre } from "./hooks/useGenres";
 import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/useGames";
 
+export interface GameQuery {
+  genre: Genre | null
+  platform: Platform | null 
+  sortOrder: string
+  searchText: string
+}
+
 function App() {
   const currentBp = useBreakpointValue({
     base: "base",
@@ -18,6 +25,7 @@ function App() {
   });
 
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
 
   return (
     <Grid
@@ -32,7 +40,7 @@ function App() {
     >
       <GridItem area="nav">
         {" "}
-        <NavBar></NavBar>{" "}
+        <NavBar onSearch={(searchText) => setGameQuery({...gameQuery, searchText})}></NavBar>{" "}
       </GridItem>
 
       <Show
