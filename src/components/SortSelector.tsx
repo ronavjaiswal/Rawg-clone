@@ -21,7 +21,7 @@ const SortSelector = ({ sortOrder, onSelectSortOrder }: Props) => {
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
-        <Button rightIcon={<BsChevronDown />}>
+        <Button>
           Order by: {current}
         </Button>
       </Menu.Trigger>
