@@ -1,20 +1,19 @@
-import { Grid, GridItem, Show, useBreakpointValue } from "@chakra-ui/react";
+import { Grid, GridItem, HStack, Show, useBreakpointValue } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
-import { useState } from "react";
 import { Genre } from "./hooks/useGenres";
 import PlatformSelector from "./components/PlatformSelector";
-import { Platform } from "./hooks/useGames";
-
-export interface GameQuery {
-  genre: Genre | null
-  platform: Platform | null 
-  sortOrder: string
-  searchText: string
-}
+import SortSelector from "./components/SortSelector";
+import usePlatforms, { Platform } from "./hooks/usePlatforms";
+import { useState } from "react";
 
 function App() {
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null);
+  const [sortOrder, setSortOrder] = useState<string>('');
+  const [searchText, setSearchText] = useState<string>('');
+
   const currentBp = useBreakpointValue({
     base: "base",
     sm: "sm",
@@ -24,10 +23,9 @@ function App() {
     "2xl": "2xl",
   });
 
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
-
   return (
+    
+    
     <Grid
       templateAreas={{
         base: `"nav" "main"`,
@@ -39,31 +37,34 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        {" "}
-        <NavBar onSearch={(searchText) => setGameQuery({...gameQuery, searchText})}></NavBar>{" "}
+        <NavBar onSearch={(text: string) => setSearchText(text)} />
       </GridItem>
-
-      <Show
-        when={
+      <Show when={
           currentBp == "lg" || currentBp == "xl" || currentBp == "2xl"
             ? true
             : false
-        }
-      >
+        }>
         <GridItem area="aside" paddingX={5}>
           <GenreList
             selectedGenre={selectedGenre}
-            onSelectGenre={(genre) => {
-              setSelectedGenre(genre);
-            }}
-          ></GenreList>
+            onSelectGenre={(genre) => setSelectedGenre(genre)}
+          />
         </GridItem>
       </Show>
-      <PlatformSelector></PlatformSelector>
       <GridItem area="main">
-        {" "}
-        <PlatformSelector></PlatformSelector>
-        <GameGrid selectedGenre={selectedGenre}></GameGrid>{" "}
+        <HStack paddingLeft={2} marginBottom={5}>
+          <PlatformSelector/>
+          <SortSelector
+            sortOrder={sortOrder}
+            onSelectSortOrder={(order) => setSortOrder(order)}
+          />
+        </HStack>
+        <GameGrid
+          selectedGenre={selectedGenre}
+          selectedPlatform={selectedPlatform}
+          sortOrder={sortOrder}
+          searchText={searchText}
+        />
       </GridItem>
     </Grid>
   );
